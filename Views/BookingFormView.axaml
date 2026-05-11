@@ -1,0 +1,66 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:HotelManagement.ViewModels"
+             x:Class="HotelManagement.Views.BookingFormView"
+             x:DataType="vm:BookingFormViewModel">
+
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Border Background="White" CornerRadius="12" Padding="40,30"
+                BoxShadow="0 4 20 0 #30000000" MinWidth="420">
+            <StackPanel Spacing="12">
+                <TextBlock Text="{Binding L.Booking}" FontSize="24" FontWeight="Bold"
+                           HorizontalAlignment="Center" Foreground="#1B3A5C"/>
+
+                <Border Background="#EBF5FF" CornerRadius="8" Padding="15,10">
+                    <StackPanel Spacing="3">
+                        <TextBlock FontSize="15" FontWeight="SemiBold" Foreground="#1B3A5C">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="№ {0} ({1})">
+                                    <Binding Path="Room.Number"/>
+                                    <Binding Path="Room.Class"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock Text="{Binding Room.Price, StringFormat='{}{0:N0} тг/сутки'}"
+                                   FontSize="14" Foreground="#2980B9" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding Room.Description}"
+                                   FontSize="12" Foreground="#777" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+
+                <StackPanel Spacing="5" Margin="0,5,0,0" IsVisible="{Binding !IsSuccess}">
+                    <TextBlock Text="{Binding L.GuestName}" FontSize="13" Foreground="#555"/>
+                    <TextBox Text="{Binding GuestName}" Watermark="{Binding L.GuestNamePlaceholder}"
+                             Padding="10,8" CornerRadius="6" FontSize="14"/>
+                </StackPanel>
+
+                <StackPanel Spacing="5" IsVisible="{Binding !IsSuccess}">
+                    <TextBlock Text="{Binding L.PhoneLabel}" FontSize="13" Foreground="#555"/>
+                    <TextBox Text="{Binding GuestPhone}" Watermark="{Binding L.PhonePlaceholder}"
+                             Padding="10,8" CornerRadius="6" FontSize="14"/>
+                </StackPanel>
+
+                <TextBlock Text="{Binding ErrorMessage}" Foreground="#E74C3C" FontSize="13"
+                           HorizontalAlignment="Center" IsVisible="{Binding ErrorMessage.Length}"/>
+
+                <Border Background="#D5F5E3" CornerRadius="8" Padding="15,12" IsVisible="{Binding IsSuccess}">
+                    <StackPanel Spacing="5">
+                        <TextBlock Text="✓" FontSize="30" Foreground="#27AE60" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding SuccessMessage}" FontSize="14" Foreground="#1E8449"
+                                   TextWrapping="Wrap" TextAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <Button Content="{Binding L.SubmitBooking}" Command="{Binding SubmitCommand}"
+                        IsVisible="{Binding !IsSuccess}"
+                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                        Background="#27AE60" Foreground="White"
+                        Padding="12,10" CornerRadius="6" FontSize="15" FontWeight="SemiBold"/>
+
+                <Button Content="{Binding L.BackToRooms}" Command="{Binding GoBackCommand}"
+                        HorizontalAlignment="Center"
+                        Background="Transparent" Foreground="#888" FontSize="13" Padding="10,5"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

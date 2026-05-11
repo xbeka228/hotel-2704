@@ -1,0 +1,35 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="HotelManagement.App"
+             xmlns:vm="using:HotelManagement.ViewModels"
+             xmlns:views="using:HotelManagement.Views">
+
+    <Application.Styles>
+        <FluentTheme />
+    </Application.Styles>
+
+    <Application.DataTemplates>
+        <DataTemplate DataType="{x:Type vm:LoginViewModel}">
+            <views:LoginView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:GuestRoomsViewModel}">
+            <views:GuestRoomsView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:RoomDetailViewModel}">
+            <views:RoomDetailView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:BookingFormViewModel}">
+            <views:BookingFormView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:StaffBookingsViewModel}">
+            <views:StaffBookingsView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:AdminRoomsViewModel}">
+            <views:AdminRoomsView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:AdminRoomEditViewModel}">
+            <views:AdminRoomEditView />
+        </DataTemplate>
+    </Application.DataTemplates>
+
+</Application>

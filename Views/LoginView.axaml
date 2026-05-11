@@ -1,0 +1,54 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:HotelManagement.ViewModels"
+             x:Class="HotelManagement.Views.LoginView"
+             x:DataType="vm:LoginViewModel">
+
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Border Background="White" CornerRadius="12" Padding="40,35"
+                BoxShadow="0 4 20 0 #30000000" MinWidth="380">
+            <StackPanel Spacing="15">
+                <TextBlock Text="{Binding L.Authorization}"
+                           FontSize="24" FontWeight="Bold"
+                           HorizontalAlignment="Center" Foreground="#1B3A5C"/>
+
+                <Border Background="#E8F0FE" CornerRadius="6" Padding="10,6"
+                        HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding L.LoginAs}" FontSize="13" Foreground="#1B3A5C"/>
+                        <TextBlock Text="{Binding RoleTitle}" FontSize="13" Foreground="#1B3A5C" FontWeight="Bold"/>
+                    </StackPanel>
+                </Border>
+
+                <StackPanel Spacing="5" Margin="0,10,0,0">
+                    <TextBlock Text="{Binding L.LoginLabel}" FontSize="13" Foreground="#555"/>
+                    <TextBox Text="{Binding Login}" Watermark="{Binding L.EnterLogin}"
+                             Padding="10,8" CornerRadius="6" FontSize="14"/>
+                </StackPanel>
+
+                <StackPanel Spacing="5">
+                    <TextBlock Text="{Binding L.PasswordLabel}" FontSize="13" Foreground="#555"/>
+                    <TextBox Text="{Binding Password}" PasswordChar="*"
+                             Watermark="{Binding L.EnterPassword}"
+                             Padding="10,8" CornerRadius="6" FontSize="14"/>
+                </StackPanel>
+
+                <TextBlock Text="{Binding ErrorMessage}"
+                           Foreground="#E74C3C" FontSize="13"
+                           HorizontalAlignment="Center"
+                           IsVisible="{Binding ErrorMessage.Length}"/>
+
+                <Button Content="{Binding L.LoginButton}" Command="{Binding TryLoginCommand}"
+                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                        Background="#1B3A5C" Foreground="White"
+                        Padding="12,10" CornerRadius="6"
+                        FontSize="15" FontWeight="SemiBold" Margin="0,5,0,0"/>
+
+                <Button Content="{Binding L.Back}" Command="{Binding GoBackCommand}"
+                        HorizontalAlignment="Center"
+                        Background="Transparent" Foreground="#888"
+                        FontSize="13" Padding="10,5"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,118 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:HotelManagement.ViewModels"
+             x:Class="HotelManagement.Views.StaffBookingsView"
+             x:DataType="vm:StaffBookingsViewModel">
+
+    <DockPanel Margin="25,20">
+        <StackPanel DockPanel.Dock="Top" Spacing="12" Margin="0,0,0,15">
+            <DockPanel>
+                <TextBlock Text="{Binding L.ManageBookings}"
+                           FontSize="24" FontWeight="Bold" Foreground="#1B3A5C"/>
+                <Button Content="{Binding L.Refresh}" Command="{Binding RefreshCommand}"
+                        HorizontalAlignment="Right"
+                        Background="#3498DB" Foreground="White"
+                        Padding="15,7" CornerRadius="6" FontSize="13"/>
+            </DockPanel>
+
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button Content="{Binding L.Pending}" Command="{Binding FilterPendingCommand}"
+                        Background="#F39C12" Foreground="White"
+                        Padding="14,7" CornerRadius="6" FontSize="13"/>
+                <Button Content="{Binding L.Confirmed}" Command="{Binding FilterConfirmedCommand}"
+                        Background="#27AE60" Foreground="White"
+                        Padding="14,7" CornerRadius="6" FontSize="13"/>
+                <Button Content="{Binding L.All}" Command="{Binding FilterAllCommand}"
+                        Background="#7F8C8D" Foreground="White"
+                        Padding="14,7" CornerRadius="6" FontSize="13"/>
+            </StackPanel>
+
+            <TextBlock Text="{Binding Message}" FontSize="13" IsVisible="{Binding Message.Length}">
+                <TextBlock.Foreground>
+                    <Binding Path="IsMessageSuccess"
+                             Converter="{x:Static vm:MessageColorConverter.Instance}"/>
+                </TextBlock.Foreground>
+            </TextBlock>
+        </StackPanel>
+
+        <!-- Receipt panel -->
+        <Border DockPanel.Dock="Bottom" IsVisible="{Binding ShowReceiptPanel}"
+                Background="White" CornerRadius="10"
+                BoxShadow="0 -2 10 0 #20000000" Padding="20,15" Margin="0,10,0,0">
+            <StackPanel Spacing="10">
+                <TextBlock Text="{Binding L.ReceiptTitle}" FontSize="17" FontWeight="Bold" Foreground="#1B3A5C"/>
+                <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding L.DaysCount}" VerticalAlignment="Center" FontSize="14"/>
+                    <NumericUpDown Value="{Binding ReceiptDays}" Minimum="1" Maximum="365"
+                                   Width="120" FontSize="14"/>
+                    <Button Content="{Binding L.GeneratePdf}" Command="{Binding GenerateReceiptCommand}"
+                            Background="#2980B9" Foreground="White"
+                            Padding="15,8" CornerRadius="6" FontSize="13"/>
+                    <Button Content="{Binding L.Cancel}" Command="{Binding CloseReceiptPanelCommand}"
+                            Background="#95A5A6" Foreground="White"
+                            Padding="15,8" CornerRadius="6" FontSize="13"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer>
+            <ItemsControl ItemsSource="{Binding Bookings}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="White" CornerRadius="8" Padding="18,14"
+                                Margin="0,0,0,8" BoxShadow="0 1 5 0 #15000000">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <StackPanel Spacing="5">
+                                    <TextBlock FontSize="16" FontWeight="SemiBold" Foreground="#1B3A5C">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="#{0} — № {1} ({2})">
+                                                <Binding Path="Id"/>
+                                                <Binding Path="RoomNumber"/>
+                                                <Binding Path="RoomClass"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <TextBlock FontSize="14" Foreground="#555">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0} | {1}">
+                                                <Binding Path="GuestName"/>
+                                                <Binding Path="GuestPhone"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <StackPanel Orientation="Horizontal" Spacing="10">
+                                        <TextBlock Text="{Binding Status}" FontSize="13"
+                                                   FontWeight="SemiBold" Foreground="#8E44AD"/>
+                                        <TextBlock Text="{Binding CreatedAt, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}"
+                                                   FontSize="12" Foreground="#999"/>
+                                        <TextBlock Text="{Binding RoomPrice, StringFormat='{}{0:N0} тг/сут'}"
+                                                   FontSize="12" Foreground="#2980B9" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Orientation="Horizontal"
+                                            Spacing="6" VerticalAlignment="Center">
+                                    <Button Content="✓"
+                                            Command="{Binding $parent[UserControl].DataContext.ConfirmCommand}"
+                                            CommandParameter="{Binding}"
+                                            Background="#27AE60" Foreground="White"
+                                            Padding="10,6" CornerRadius="5" FontSize="14"/>
+                                    <Button Content="✗"
+                                            Command="{Binding $parent[UserControl].DataContext.RejectCommand}"
+                                            CommandParameter="{Binding}"
+                                            Background="#E74C3C" Foreground="White"
+                                            Padding="10,6" CornerRadius="5" FontSize="14"/>
+                                    <Button Content="PDF"
+                                            Command="{Binding $parent[UserControl].DataContext.OpenReceiptPanelCommand}"
+                                            CommandParameter="{Binding}"
+                                            Background="#2980B9" Foreground="White"
+                                            Padding="10,6" CornerRadius="5" FontSize="14"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </DockPanel>
+</UserControl>

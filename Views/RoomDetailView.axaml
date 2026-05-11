@@ -1,0 +1,100 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:HotelManagement.ViewModels"
+             x:Class="HotelManagement.Views.RoomDetailView"
+             x:DataType="vm:RoomDetailViewModel">
+
+    <ScrollViewer>
+        <StackPanel Margin="30,20" Spacing="15" MaxWidth="700" HorizontalAlignment="Left">
+
+            <Button Content="{Binding L.BackToRooms}" Command="{Binding GoBackCommand}"
+                    Background="Transparent" Foreground="#1B3A5C" FontSize="14" Padding="5,5"/>
+
+            <TextBlock FontSize="28" FontWeight="Bold" Foreground="#1B3A5C">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="№ {0} — {1}">
+                        <Binding Path="Room.Number"/>
+                        <Binding Path="Room.Class"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+
+            <!-- Photo area -->
+            <Border Background="White" CornerRadius="12"
+                    BoxShadow="0 2 12 0 #20000000" ClipToBounds="True">
+                <Grid Height="320">
+                    <Border Background="#D5E8F7">
+                        <Panel>
+                            <Image Source="{Binding CurrentPhoto}" Stretch="UniformToFill"
+                                   IsVisible="{Binding CurrentPhoto, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
+                                        IsVisible="{Binding CurrentPhoto, Converter={x:Static ObjectConverters.IsNull}}">
+                                <TextBlock Text="🏨" FontSize="80" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{Binding Room.Class}" FontSize="16"
+                                           HorizontalAlignment="Center" Foreground="#1B3A5C" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Panel>
+                    </Border>
+
+                    <Button Content="◀" Command="{Binding PrevPhotoCommand}"
+                            HorizontalAlignment="Left" VerticalAlignment="Center"
+                            Background="#80000000" Foreground="White"
+                            FontSize="18" Padding="10,15" Margin="10,0" CornerRadius="6"/>
+                    <Button Content="▶" Command="{Binding NextPhotoCommand}"
+                            HorizontalAlignment="Right" VerticalAlignment="Center"
+                            Background="#80000000" Foreground="White"
+                            FontSize="18" Padding="10,15" Margin="10,0" CornerRadius="6"/>
+
+                    <Border Background="#80000000" CornerRadius="10" Padding="10,4"
+                            HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10">
+                        <TextBlock Text="{Binding PhotoLabel}" Foreground="White" FontSize="13"/>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- Room info -->
+            <Border Background="White" CornerRadius="10" Padding="25,20"
+                    BoxShadow="0 2 10 0 #15000000">
+                <StackPanel Spacing="12">
+                    <DockPanel>
+                        <TextBlock Text="{Binding Room.Price, StringFormat='{}{0:N0} тг / сутки'}"
+                                   FontSize="22" FontWeight="Bold" Foreground="#2980B9"/>
+                        <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center"
+                                   FontSize="14" FontWeight="SemiBold">
+                            <TextBlock.Text>
+                                <Binding Path="Room.IsAvailable"
+                                         Converter="{x:Static vm:StatusConverter.Instance}"/>
+                            </TextBlock.Text>
+                            <TextBlock.Foreground>
+                                <Binding Path="Room.IsAvailable"
+                                         Converter="{x:Static vm:StatusColorConverter.Instance}"/>
+                            </TextBlock.Foreground>
+                        </TextBlock>
+                    </DockPanel>
+
+                    <TextBlock Text="{Binding Room.Description}"
+                               FontSize="15" Foreground="#555" TextWrapping="Wrap" LineHeight="22"/>
+
+                    <StackPanel Spacing="4" Margin="0,5,0,0">
+                        <TextBlock Text="{Binding L.RoomPhotos}" FontSize="12" Foreground="#999"/>
+                        <TextBlock FontSize="12" Foreground="#777">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0}, {1}, {2}">
+                                    <Binding Path="Room.Photo1"/>
+                                    <Binding Path="Room.Photo2"/>
+                                    <Binding Path="Room.Photo3"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Button Content="{Binding L.BookRoom}" Command="{Binding BookThisCommand}"
+                    IsEnabled="{Binding Room.IsAvailable}"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                    Background="#27AE60" Foreground="White"
+                    FontSize="17" FontWeight="Bold" Padding="15,12" CornerRadius="8"/>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

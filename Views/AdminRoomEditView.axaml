@@ -1,0 +1,78 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:HotelManagement.ViewModels"
+             x:Class="HotelManagement.Views.AdminRoomEditView"
+             x:DataType="vm:AdminRoomEditViewModel">
+
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Border Background="White" CornerRadius="12" Padding="35,30"
+                BoxShadow="0 4 20 0 #30000000" MinWidth="450">
+            <StackPanel Spacing="12">
+                <TextBlock Text="{Binding Title}" FontSize="22" FontWeight="Bold"
+                           HorizontalAlignment="Center" Foreground="#1B3A5C"/>
+
+                <StackPanel Spacing="5">
+                    <TextBlock Text="{Binding L.RoomNumberLabel}" FontSize="13" Foreground="#555"/>
+                    <TextBox Text="{Binding RoomNumber}" Watermark="101"
+                             Padding="10,8" CornerRadius="6" FontSize="14"/>
+                </StackPanel>
+
+                <StackPanel Spacing="5">
+                    <TextBlock Text="{Binding L.ClassLabel}" FontSize="13" Foreground="#555"/>
+                    <ComboBox ItemsSource="{Binding RoomClasses}"
+                              SelectedIndex="{Binding SelectedClassIndex}"
+                              HorizontalAlignment="Stretch"
+                              Padding="10,8" CornerRadius="6" FontSize="14"/>
+                </StackPanel>
+
+                <StackPanel Spacing="5">
+                    <TextBlock Text="{Binding L.PricePerDayLabel}" FontSize="13" Foreground="#555"/>
+                    <TextBox Text="{Binding Price}" Watermark="15000"
+                             Padding="10,8" CornerRadius="6" FontSize="14"/>
+                </StackPanel>
+
+                <StackPanel Spacing="5">
+                    <TextBlock Text="{Binding L.DescriptionLabel}" FontSize="13" Foreground="#555"/>
+                    <TextBox Text="{Binding Description}"
+                             Watermark="{Binding L.DescriptionPlaceholder}"
+                             Padding="10,8" CornerRadius="6" FontSize="14"
+                             AcceptsReturn="True" Height="60" TextWrapping="Wrap"/>
+                </StackPanel>
+
+                <StackPanel Spacing="5">
+                    <TextBlock Text="{Binding L.Photo, StringFormat='{}{0} 1'}" FontSize="13" Foreground="#555"/>
+                    <TextBox Text="{Binding Photo1}" Watermark="photo1.png"
+                             Padding="10,8" CornerRadius="6" FontSize="13"/>
+                </StackPanel>
+
+                <StackPanel Spacing="5">
+                    <TextBlock Text="{Binding L.Photo, StringFormat='{}{0} 2'}" FontSize="13" Foreground="#555"/>
+                    <TextBox Text="{Binding Photo2}" Watermark="photo2.png"
+                             Padding="10,8" CornerRadius="6" FontSize="13"/>
+                </StackPanel>
+
+                <StackPanel Spacing="5">
+                    <TextBlock Text="{Binding L.Photo, StringFormat='{}{0} 3'}" FontSize="13" Foreground="#555"/>
+                    <TextBox Text="{Binding Photo3}" Watermark="photo3.png"
+                             Padding="10,8" CornerRadius="6" FontSize="13"/>
+                </StackPanel>
+
+                <TextBlock Text="{Binding ErrorMessage}" Foreground="#E74C3C" FontSize="13"
+                           HorizontalAlignment="Center" IsVisible="{Binding ErrorMessage.Length}"/>
+
+                <Grid ColumnDefinitions="*,10,*" Margin="0,5,0,0">
+                    <Button Grid.Column="0" Content="{Binding L.Save}"
+                            Command="{Binding SaveCommand}"
+                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                            Background="#27AE60" Foreground="White"
+                            Padding="12,10" CornerRadius="6" FontSize="15" FontWeight="SemiBold"/>
+                    <Button Grid.Column="2" Content="{Binding L.Cancel}"
+                            Command="{Binding CancelCommand}"
+                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                            Background="#95A5A6" Foreground="White"
+                            Padding="12,10" CornerRadius="6" FontSize="15"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

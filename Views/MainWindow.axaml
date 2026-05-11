@@ -1,0 +1,85 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:HotelManagement.ViewModels"
+        x:Class="HotelManagement.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="Grand Hotel — Management System"
+        Width="1100" Height="700"
+        MinWidth="900" MinHeight="600"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid ColumnDefinitions="220,*">
+        <!-- Sidebar -->
+        <Border Grid.Column="0" Background="#1B3A5C" Padding="0">
+            <DockPanel>
+                <!-- Header -->
+                <StackPanel DockPanel.Dock="Top" Margin="15,20,15,10">
+                    <TextBlock Text="{Binding L.AppTitle}"
+                               FontSize="20" FontWeight="Bold"
+                               Foreground="White" HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding L.SystemTitle}"
+                               FontSize="11" Foreground="#8BADC9"
+                               HorizontalAlignment="Center" Margin="0,2,0,0"/>
+                    <Border Height="1" Background="#3A6B8C" Margin="0,15,0,10"/>
+                </StackPanel>
+
+                <!-- Role indicator -->
+                <Border DockPanel.Dock="Top" Margin="15,0,15,5"
+                        Background="#2A5078" CornerRadius="6" Padding="10,6">
+                    <TextBlock Foreground="#B0D4F1" FontSize="12"
+                               HorizontalAlignment="Center">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0}: {1}">
+                                <Binding Path="L.Role"/>
+                                <Binding Path="CurrentRole"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Border>
+
+                <!-- Language switch -->
+                <Button DockPanel.Dock="Top" Content="{Binding L.SwitchLang}"
+                        Command="{Binding ToggleLanguageCommand}"
+                        Margin="15,5,15,5"
+                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                        Background="#34698A" Foreground="White" Padding="10,7"
+                        CornerRadius="6" FontSize="13"/>
+
+                <!-- Bottom buttons -->
+                <StackPanel DockPanel.Dock="Bottom" Margin="15,10,15,20">
+                    <Button Content="{Binding L.Logout}" Command="{Binding LogoutCommand}"
+                            IsVisible="{Binding IsLoggedIn}"
+                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                            Background="#C0392B" Foreground="White" Padding="10,8"
+                            CornerRadius="6"/>
+                </StackPanel>
+
+                <!-- Navigation -->
+                <StackPanel Margin="15,10,15,0" Spacing="5">
+                    <TextBlock Text="{Binding L.Navigation}" FontSize="10" Foreground="#6A9FC0"
+                               FontWeight="SemiBold" Margin="5,0,0,5"/>
+
+                    <Button Content="{Binding L.GuestBtn}" Command="{Binding NavigateToGuestCommand}"
+                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                            Background="Transparent" Foreground="White"
+                            Padding="12,10" CornerRadius="6" FontSize="14"/>
+
+                    <Button Content="{Binding L.StaffBtn}" Command="{Binding NavigateToStaffLoginCommand}"
+                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                            Background="Transparent" Foreground="White"
+                            Padding="12,10" CornerRadius="6" FontSize="14"/>
+
+                    <Button Content="{Binding L.AdminBtn}" Command="{Binding NavigateToAdminLoginCommand}"
+                            HorizontalAlignment="Stretch" HorizontalContentAlignment="Left"
+                            Background="Transparent" Foreground="White"
+                            Padding="12,10" CornerRadius="6" FontSize="14"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- Main content area -->
+        <Border Grid.Column="1" Background="#F0F2F5">
+            <ContentControl Content="{Binding CurrentView}" Margin="0"/>
+        </Border>
+    </Grid>
+</Window>
